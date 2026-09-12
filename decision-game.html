@@ -1,0 +1,85 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Emergency Decision | SCHOOL SAFE</title><link rel="icon" href="assets/school-logo.png"><link rel="stylesheet" href="style.css"></head><body>
+<header class="topbar"><a class="brand" href="index.html"><img src="assets/school-logo.png" alt="ตราโรงเรียนสระแก้ว"><span><strong>SCHOOL SAFE</strong><small>SAKAEO SCHOOL SAFETY PLATFORM</small></span></a><nav class="nav">
+<a href="index.html">หน้าหลัก</a>
+<a href="assessment.html">แบบทดสอบ</a>
+<a href="training.html">ฝึกทักษะ</a>
+<a href="games.html">เกม</a>
+<a href="map.html">แผนผัง</a>
+<a href="news.html">ข่าวเตือนสติ</a>
+<a href="emergency.html">ฉุกเฉิน</a>
+<a href="profile.html">โปรไฟล์</a>
+</nav><div class="user-chip"><div class="avatar" data-user-initial>U</div><span data-user-name>ผู้ใช้</span></div></header>
+<section class="page-hero"><h1>Emergency Decision</h1><p>อ่านสถานการณ์ • เลือกการตัดสินใจ • ดูฉากตอบสนองทันที</p></section>
+<main class="container page-section">
+  <div class="decision-toolbar card">
+    <div><label class="small muted">เลือกสถานการณ์</label>
+      <select id="scenarioSelect">
+        <option value="fire">สัญญาณเหตุเพลิงไหม้</option>
+        <option value="quake">อาคารสั่นสะเทือน</option>
+        <option value="medical">เพื่อนต้องการความช่วยเหลือ</option>
+        <option value="storm">พายุระหว่างกิจกรรมกลางแจ้ง</option>
+        <option value="electric">พบสายไฟชำรุดในทางเดิน</option>
+      </select></div>
+    <div class="decision-score"><span>คะแนนด่าน</span><strong id="decisionScore">0</strong></div>
+  </div>
+
+  <section class="decision-layout">
+    <div class="decision-scene-wrap">
+      <svg id="decisionScene" class="decision-svg" viewBox="0 0 900 560" role="img" aria-label="ฉากจำลองสถานการณ์">
+        <defs>
+          <linearGradient id="wallG" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#eaf5f7"/><stop offset="1" stop-color="#dce9e7"/></linearGradient>
+          <linearGradient id="woodG" x1="0" x2="1"><stop stop-color="#8f653e"/><stop offset="1" stop-color="#b4865b"/></linearGradient>
+          <linearGradient id="glassG" x1="0" x2="1"><stop stop-color="#a9dceb" stop-opacity=".82"/><stop offset=".55" stop-color="#edfafd" stop-opacity=".62"/><stop offset="1" stop-color="#9ecbd6" stop-opacity=".82"/></linearGradient>
+          <filter id="shadow"><feDropShadow dx="0" dy="5" stdDeviation="5" flood-opacity=".18"/></filter>
+        </defs>
+        <rect width="900" height="390" fill="url(#wallG)"/>
+        <rect y="390" width="900" height="170" fill="#cdb38d"/>
+        <path d="M0 430H900M0 485H900" stroke="#b79a72" stroke-width="3" opacity=".45"/>
+        <!-- window -->
+        <g id="objWindow" filter="url(#shadow)"><rect x="60" y="75" width="210" height="150" rx="4" fill="#657a74"/><rect x="72" y="87" width="186" height="126" fill="url(#glassG)"/><path d="M165 87V213M72 150H258" stroke="#657a74" stroke-width="7"/></g>
+        <!-- cabinet -->
+        <g id="objCabinet" filter="url(#shadow)"><rect x="320" y="92" width="145" height="255" rx="5" fill="#455b52"/><rect x="334" y="110" width="117" height="210" fill="url(#glassG)"/><path d="M392 110V320M334 215H451" stroke="#6b867c" stroke-width="7"/><circle cx="382" cy="224" r="4" fill="#263d35"/><circle cx="402" cy="224" r="4" fill="#263d35"/></g>
+        <!-- door -->
+        <g id="objDoor" filter="url(#shadow)"><rect x="730" y="105" width="120" height="285" fill="#5b402d"/><rect x="742" y="117" width="96" height="273" fill="url(#woodG)"/><circle cx="815" cy="255" r="7" fill="#e0b949"/></g>
+        <!-- two desks -->
+        <g id="objDesk1" filter="url(#shadow)"><rect x="120" y="355" width="250" height="34" rx="7" fill="url(#woodG)"/><rect x="142" y="388" width="22" height="114" fill="#4f5551"/><rect x="326" y="388" width="22" height="114" fill="#4f5551"/><rect x="145" y="412" width="200" height="10" fill="#7a5a40" opacity=".35"/></g>
+        <g id="objDesk2" filter="url(#shadow)"><rect x="460" y="355" width="205" height="34" rx="7" fill="url(#woodG)"/><rect x="480" y="388" width="20" height="114" fill="#4f5551"/><rect x="625" y="388" width="20" height="114" fill="#4f5551"/></g>
+        <!-- exit sign -->
+        <g id="exitSign"><rect x="730" y="55" width="120" height="34" rx="5" fill="#087349"/><text x="790" y="78" text-anchor="middle" fill="white" font-size="18" font-weight="700">ทางออก</text></g>
+        <!-- wire -->
+        <g id="objWire" opacity="0"><path d="M550 455 C620 420,650 505,730 465" fill="none" stroke="#242424" stroke-width="9"/><path d="M717 465 l35 -20" stroke="#d84b3c" stroke-width="8"/><circle cx="755" cy="443" r="18" fill="#ffd74b"/><text x="755" y="450" text-anchor="middle" font-size="20">!</text></g>
+        <!-- smoke/fire -->
+        <g id="fireFx" opacity="0"><path d="M690 390 C660 350,700 330,688 295 C730 320,745 355,720 390Z" fill="#e45f2e"/><path d="M705 390 C690 365,710 345,706 326 C727 345,732 370,720 390Z" fill="#ffd34f"/></g>
+        <g id="smokeFx" opacity="0" fill="#66716d" opacity=".68"><circle cx="690" cy="255" r="28"/><circle cx="720" cy="230" r="38"/><circle cx="755" cy="205" r="48"/></g>
+        <!-- rain -->
+        <g id="rainFx" opacity="0" stroke="#d8eff7" stroke-width="5"><path d="M40 40l-20 45M110 15L90 60M190 35l-20 45M300 10l-20 45M420 30l-20 45M560 8l-20 45M680 30l-20 45M820 12l-20 45"/></g>
+        <!-- friend -->
+        <g id="friendFx" opacity="0" transform="translate(515 410) rotate(-5)"><circle cx="0" cy="0" r="18" fill="#e7bd99"/><rect x="18" y="-10" width="90" height="34" rx="17" fill="#d9e7df"/><rect x="92" y="12" width="70" height="14" rx="7" fill="#455a52"/></g>
+        <!-- teacher -->
+        <g id="teacherFx" opacity="0" transform="translate(690 290)"><circle cx="0" cy="0" r="20" fill="#e7bd99"/><rect x="-22" y="20" width="44" height="70" rx="12" fill="#d1a932"/><rect x="-18" y="88" width="14" height="64" rx="7" fill="#263d35"/><rect x="4" y="88" width="14" height="64" rx="7" fill="#263d35"/></g>
+        <!-- player -->
+        <g id="playerFx" class="svg-player" transform="translate(425 325)">
+          <circle cx="0" cy="0" r="24" fill="#e7bd99" stroke="#5d4b40" stroke-width="3"/>
+          <path d="M-25 -10 Q0 -38 25 -10V-2H-25Z" fill="#263d35"/>
+          <rect x="-28" y="25" width="56" height="78" rx="14" fill="#08704d"/>
+          <rect x="-25" y="100" width="18" height="78" rx="9" fill="#263d35"/><rect x="7" y="100" width="18" height="78" rx="9" fill="#263d35"/>
+          <rect x="-43" y="35" width="15" height="68" rx="8" fill="#e7bd99"/><rect x="28" y="35" width="15" height="68" rx="8" fill="#e7bd99"/>
+        </g>
+        <g id="shelterFx" opacity="0"><rect x="665" y="180" width="190" height="180" rx="8" fill="#e7ddbd" stroke="#5b715d" stroke-width="8"/><path d="M640 180L760 95L880 180Z" fill="#2c694c"/><text x="760" y="275" text-anchor="middle" font-size="20" fill="#234b39" font-weight="700">พื้นที่ที่กำหนด</text></g>
+        <g id="debrisFx" opacity="0" fill="#8c765c"><rect x="290" y="360" width="50" height="22" transform="rotate(20 315 371)"/><rect x="600" y="320" width="38" height="18" transform="rotate(-25 619 329)"/></g>
+        <rect x="24" y="500" width="852" height="42" rx="12" fill="#063b2a" opacity=".92"/>
+        <text id="sceneCaption" x="450" y="528" text-anchor="middle" fill="white" font-size="18" font-weight="600">เริ่มสถานการณ์</text>
+      </svg>
+    </div>
+    <aside class="decision-panel card">
+      <span class="badge badge-gold" id="stepBadge">STEP 1/3</span>
+      <h2 id="decisionQ">กำลังเตรียมสถานการณ์...</h2>
+      <div id="decisionChoices" class="choice-grid"></div>
+      <div id="decisionFeedback" class="feedback"></div>
+      <button id="decisionNext" class="btn btn-green" type="button" disabled>ขั้นต่อไป →</button>
+    </aside>
+  </section>
+</main>
+<footer>SCHOOL SAFE • โรงเรียนสระแก้ว • ฝึกคิดและตัดสินใจก่อนเกิดเหตุจริง</footer>
+<script src="config.js"></script><script src="auth.js"></script><script src="main.js"></script><script src="decision-game.js"></script></body></html>

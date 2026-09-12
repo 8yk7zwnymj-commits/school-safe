@@ -1,0 +1,1 @@
+window.SCHOOL_SAFE_CONFIG={mode:'DEMO_LOCAL',supabaseUrl:'',supabaseAnonKey:''};
