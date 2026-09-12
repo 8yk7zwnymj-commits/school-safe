@@ -45,3 +45,122 @@ nav a {
 nav a:hover {
   color: #56c7ff;
 }
+
+/* ===== HERO SECTION ===== */
+
+.hero {
+  min-height: 560px;
+  padding: 70px 8%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: linear-gradient(
+    120deg,
+    #061c34 0%,
+    #08345c 55%,
+    #0c5b8d 100%
+  );
+
+  color: white;
+}
+
+.hero-content {
+  width: 55%;
+  max-width: 700px;
+}
+
+.hero-badge {
+  display: inline-block;
+  padding: 8px 15px;
+  margin-bottom: 20px;
+
+  border-radius: 30px;
+
+  background: rgba(72, 190, 255, 0.12);
+  border: 1px solid rgba(90, 200, 255, 0.35);
+
+  color: #67ceff;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.hero h1 {
+  font-size: 64px;
+  line-height: 1.1;
+  margin-bottom: 22px;
+}
+
+.hero h1 span {
+  color: #55c8ff;
+}
+
+.hero-description {
+  font-size: 19px;
+  line-height: 1.7;
+  color: #d5e8f6;
+  max-width: 570px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 15px 24px;
+  border-radius: 10px;
+
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.btn-primary {
+  background: #159fe8;
+  color: white;
+}
+
+.btn-secondary {
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* ===== HERO ด้านขวา ===== */
+
+.hero-visual {
+  width: 38%;
+  display: flex;
+  justify-content: center;
+}
+
+.safety-card {
+  width: 360px;
+  padding: 60px 35px;
+
+  text-align: center;
+
+  border-radius: 28px;
+
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2);
+}
+
+.shield-icon {
+  font-size: 75px;
+  margin-bottom: 20px;
+}
+
+.safety-card h2 {
+  font-size: 30px;
+  margin-bottom: 12px;
+}
+
+.safety-card p {
+  color: #c9deed;
+  font-size: 16px;
+}
