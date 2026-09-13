@@ -1,11 +1,12 @@
 <!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>ข่าวเตือนสติ | SCHOOL SAFE</title><link rel="icon" href="assets/school-logo.png"><link rel="stylesheet" href="style.css"></head><body>
+<title>ข่าวเตือนสติ | SCHOOL SAFE</title><link rel="icon" href="assets/school-logo.png"><link rel="stylesheet" href="style.css"><meta name="theme-color" content="#063b2a"><meta name="color-scheme" content="light"></head><body>
 <header class="topbar"><a class="brand" href="index.html"><img src="assets/school-logo.png" alt="ตราโรงเรียนสระแก้ว"><span><strong>SCHOOL SAFE</strong><small>SAKAEO SCHOOL SAFETY PLATFORM</small></span></a><nav class="nav">
 <a href="index.html">หน้าหลัก</a>
 <a href="assessment.html">แบบทดสอบ</a>
 <a href="training.html">ฝึกทักษะ</a>
 <a href="games.html">เกม</a>
 <a href="map.html">แผนผัง</a>
+<a href="equipment.html">อุปกรณ์ความปลอดภัย</a>
 <a href="news.html" class="active">ข่าวเตือนสติ</a>
 <a href="emergency.html">ฉุกเฉิน</a>
 <a href="profile.html">โปรไฟล์</a>
@@ -26,4 +27,4 @@
 <footer>SCHOOL SAFE • ข่าวเพื่อการเรียนรู้และการเตรียมพร้อม</footer>
 <script src="config.js"></script><script src="auth.js"></script><script src="main.js"></script><script>
 document.querySelectorAll(".news-filter-btn").forEach(btn=>btn.addEventListener("click",()=>{document.querySelectorAll(".news-filter-btn").forEach(x=>x.classList.remove("active"));btn.classList.add("active");const f=btn.dataset.filter;document.querySelectorAll(".news-card").forEach(c=>c.style.display=(f==="all"||c.dataset.cat===f)?"block":"none")}));
-</script></body></html>
+</script><script src="ui.js"></script></body></html>

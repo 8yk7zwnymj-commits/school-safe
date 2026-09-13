@@ -1,164 +1,35 @@
-
-const QUESTION_BANK = [{"skill": "observation", "type": "knowledge", "q": "ก่อนเริ่มกิจกรรมในห้องทดลอง สิ่งใดควรสังเกตก่อนเป็นอันดับแรก?", "opts": ["ตำแหน่งทางออกและอุปกรณ์ความปลอดภัย", "จำนวนเพื่อนในห้อง", "สีของโต๊ะ", "เวลาเลิกเรียน"], "a": 0}, {"skill": "risk", "type": "scenario", "q": "เห็นพื้นทางเดินเปียกและมีนักเรียนเดินผ่านจำนวนมาก ควรประเมินอย่างไร?", "opts": ["เป็นความเสี่ยงต่อการลื่น ควรแจ้งและหลีกเลี่ยงพื้นที่", "ไม่เป็นไรถ้ายังไม่มีใครล้ม", "เดินเร็วผ่านไปก่อน", "ยืนดูเฉย ๆ"], "a": 0}, {"skill": "decision", "type": "scenario", "q": "ได้ยินสัญญาณเตือนในโรงเรียนและครูแจ้งให้อพยพ คุณควรเลือกอะไร?", "opts": ["ทำตามคำแนะนำและเคลื่อนไปอย่างเป็นระเบียบ", "กลับไปเก็บของก่อน", "วิ่งแยกไปคนเดียว", "รอเพื่อนในห้อง"], "a": 0}, {"skill": "planning", "type": "knowledge", "q": "แผนการอพยพที่ดีควรมีสิ่งใด?", "opts": ["เส้นทางสำรองและจุดรวมพล", "เส้นทางเดียวเท่านั้น", "เฉพาะชื่อผู้รับผิดชอบ", "เฉพาะเบอร์โทร"], "a": 0}, {"skill": "management", "type": "scenario", "q": "มีเพื่อนล้มลงและดูไม่สบายในห้องเรียน สิ่งแรกที่เหมาะสมคืออะไร?", "opts": ["แจ้งครูหรือผู้ใหญ่ใกล้ที่สุดเพื่อขอความช่วยเหลือ", "ให้ทุกคนมามุง", "ถ่ายคลิป", "ย้ายเพื่อนทันทีโดยไม่ประเมิน"], "a": 0}, {"skill": "observation", "type": "scenario", "q": "ระหว่างเดินขึ้นบันได คุณพบกล่องวางกีดขวางทาง สิ่งใดเป็นการสังเกตที่ถูกต้อง?", "opts": ["เป็นสิ่งกีดขวางที่อาจทำให้สะดุดและขวางการอพยพ", "เป็นเพียงของวางชั่วคราวจึงไม่เกี่ยวกับความปลอดภัย", "ใช้เป็นที่นั่งได้", "ไม่จำเป็นต้องสนใจ"], "a": 0}, {"skill": "risk", "type": "knowledge", "q": "วิธีคิดเรื่องความเสี่ยงที่เหมาะสมคือข้อใด?", "opts": ["ดูทั้งโอกาสเกิดและผลกระทบที่อาจตามมา", "ดูเฉพาะว่าเคยเกิดหรือไม่", "ดูเฉพาะความรู้สึกกลัว", "ดูเฉพาะจำนวนคน"], "a": 0}, {"skill": "decision", "type": "scenario", "q": "มีควันอยู่ใกล้เส้นทางออกที่คุณกำลังจะใช้ แต่ครูชี้ทางออกอีกด้าน คุณควรทำอย่างไร?", "opts": ["ใช้เส้นทางที่ได้รับคำแนะนำและอยู่ห่างจากควัน", "ใช้ทางเดิมเพราะใกล้กว่า", "กลับไปหยิบโทรศัพท์", "เดินเข้าไปดูต้นเหตุ"], "a": 0}, {"skill": "planning", "type": "scenario", "q": "ก่อนกิจกรรมกีฬากลางแจ้ง มีประกาศเตือนพายุฝน คุณควรวางแผนอย่างไร?", "opts": ["เตรียมย้ายกิจกรรมตามคำสั่งและรู้จุดหลบภัยที่กำหนด", "ทำต่อจนฝนตกหนัก", "แยกย้ายกลับเอง", "รอดูโดยไม่มีแผน"], "a": 0}, {"skill": "management", "type": "knowledge", "q": "เมื่อเกิดเหตุฉุกเฉิน การสื่อสารที่ดีควรเป็นอย่างไร?", "opts": ["สั้น ชัดเจน บอกสิ่งที่สังเกตและตำแหน่ง", "พูดหลายคนพร้อมกัน", "ใส่ข้อมูลที่ไม่แน่ใจให้ครบ", "ส่งต่อข่าวลือก่อน"], "a": 0}, {"skill": "observation", "type": "scenario", "q": "ในห้องเรียนมีกระเป๋าวางขวางหน้าประตู คุณควรสังเกตประเด็นใด?", "opts": ["อาจขวางทางออกและทำให้สะดุด", "สีของกระเป๋า", "เจ้าของกระเป๋าอยู่ห้องไหน", "กระเป๋าหนักหรือเบา"], "a": 0}, {"skill": "risk", "type": "scenario", "q": "ปลั๊กไฟมีสายชำรุดเล็กน้อยแต่ยังใช้งานได้ คุณควรคิดอย่างไร?", "opts": ["ถือว่าเป็นความเสี่ยงและควรหยุดใช้/แจ้งผู้รับผิดชอบ", "ใช้ต่อได้จนกว่าจะเสีย", "ซ่อมเองทุกกรณี", "ให้เพื่อนลองก่อน"], "a": 0}, {"skill": "decision", "type": "knowledge", "q": "หลักในการตัดสินใจเมื่อข้อมูลยังไม่ครบคืออะไร?", "opts": ["เลือกทางที่ลดความเสี่ยงและขอคำแนะนำจากผู้รับผิดชอบ", "เลือกทางที่เร็วที่สุดเสมอ", "ทำตามเพื่อนส่วนใหญ่", "ตัดสินใจโดยไม่ต้องสังเกต"], "a": 0}, {"skill": "planning", "type": "scenario", "q": "คุณต้องพาเพื่อนไปจุดรวมพลจากอาคารเรียน ควรวางแผนอย่างไร?", "opts": ["ใช้เส้นทางที่กำหนดและมีทางสำรองหากเส้นทางหลักใช้ไม่ได้", "เลือกทางลัดที่ไม่เคยใช้", "แยกกลุ่มเพื่อเร็วขึ้น", "กลับไปเก็บของก่อน"], "a": 0}, {"skill": "management", "type": "scenario", "q": "เมื่อถึงจุดรวมพลหลังอพยพแล้ว สิ่งใดเหมาะสมที่สุด?", "opts": ["อยู่กับกลุ่มและรอการตรวจสอบ/คำแนะนำ", "กลับเข้าอาคารเอง", "ออกจากโรงเรียนโดยไม่แจ้ง", "เดินไปดูเหตุการณ์ใกล้ ๆ"], "a": 0}, {"skill": "observation", "type": "knowledge", "q": "ป้ายทางออกฉุกเฉินมีประโยชน์อย่างไร?", "opts": ["ช่วยระบุทิศทางออกเมื่อจำเป็น", "ใช้ตกแต่งอาคาร", "บอกชื่อห้องเรียน", "ใช้เฉพาะตอนกลางคืน"], "a": 0}, {"skill": "risk", "type": "scenario", "q": "มีคนจำนวนมากกำลังเบียดกันตรงทางออก คุณควรประเมินอะไรเป็นหลัก?", "opts": ["ความหนาแน่นและความเสี่ยงต่อการล้ม/ชนกัน", "ใครออกไปก่อน", "ใครถือของเยอะ", "ใครเสียงดัง"], "a": 0}, {"skill": "decision", "type": "scenario", "q": "ระหว่างเหตุการณ์ เพื่อนชวนแยกจากกลุ่มไปเส้นทางที่ดูสั้นกว่า แต่ไม่มีผู้รับผิดชอบแนะนำ คุณควรทำอย่างไร?", "opts": ["อยู่กับกลุ่มและใช้เส้นทางที่กำหนด", "ไปกับเพื่อนเพราะเร็วกว่า", "หยุดเถียงกันตรงทางออก", "สุ่มเลือกทางใหม่"], "a": 0}, {"skill": "planning", "type": "knowledge", "q": "เหตุใดจึงควรรู้ตำแหน่งจุดรวมพลก่อนเกิดเหตุ?", "opts": ["ช่วยให้ไปยังพื้นที่ที่กำหนดได้โดยไม่เสียเวลาค้นหา", "เพื่อใช้เป็นที่พักทั่วไป", "เพื่อจำชื่ออาคาร", "เพื่อถ่ายรูปแผนที่"], "a": 0}, {"skill": "management", "type": "scenario", "q": "คุณเห็นเหตุผิดปกติที่อาจกระทบความปลอดภัย แต่ยังไม่แน่ใจรายละเอียด ควรทำอย่างไร?", "opts": ["แจ้งครู/เจ้าหน้าที่พร้อมบอกเฉพาะสิ่งที่สังเกตได้จริง", "โพสต์ข่าวทันที", "แต่งรายละเอียดให้ครบ", "เข้าไปตรวจเองทุกกรณี"], "a": 0}];
-requireLogin();
-fillUser();
-
-const skillsTH = {
-  observation:"การสังเกต",
-  risk:"ประเมินความเสี่ยง",
-  decision:"การตัดสินใจ",
-  planning:"การวางแผน",
-  management:"การจัดการสถานการณ์"
-};
-
-const qs = QUESTION_BANK;
-let idx = 0;
-let ans = Array(qs.length).fill(null);
-
-const qText = document.getElementById("qText");
-const opts = document.getElementById("options");
-const qType = document.getElementById("qType");
-const qSkill = document.getElementById("qSkill");
-const resultBox = document.getElementById("assessmentResult");
-
-function renderDots() {
-  const box = document.getElementById("qDots");
-  box.innerHTML = "";
-  qs.forEach((_, i) => {
-    const b = document.createElement("button");
-    b.type = "button";
-    b.className = "q-dot";
-    b.textContent = i + 1;
-    b.addEventListener("click", () => { idx = i; render(); });
-    box.appendChild(b);
-  });
-}
-
-function render() {
-  const q = qs[idx];
-  if (!q) return;
-
-  // Important: hide result until the user actually submits.
-  resultBox.style.display = "none";
-
-  qText.textContent = `${idx+1}. ${q.q}`;
-  qType.textContent = q.type === "scenario" ? "🎭 สถานการณ์จำลอง" : "📘 ความรู้";
-  qSkill.textContent = skillsTH[q.skill];
-
-  opts.innerHTML = "";
-  q.opts.forEach((o, i) => {
-    const b = document.createElement("button");
-    b.type = "button";
-    b.className = "option" + (ans[idx] === i ? " selected" : "");
-    b.textContent = o;
-    b.addEventListener("click", () => {
-      ans[idx] = i;
-      render();
-    });
-    opts.appendChild(b);
-  });
-
-  document.getElementById("prevBtn").disabled = idx === 0;
-  document.getElementById("nextBtn").textContent =
-    idx === qs.length - 1 ? "ส่งคำตอบและดูผล" : "ข้อต่อไป →";
-
-  document.getElementById("answeredCount").textContent =
-    ans.filter(x => x !== null).length;
-
-  document.querySelectorAll(".q-dot").forEach((b, i) => {
-    b.className =
-      "q-dot" +
-      (ans[i] !== null ? " done" : "") +
-      (i === idx ? " active" : "");
-  });
-}
-
-document.getElementById("prevBtn").addEventListener("click", () => {
-  if (idx > 0) { idx--; render(); }
-});
-
-document.getElementById("nextBtn").addEventListener("click", () => {
-  if (ans[idx] === null) {
-    alert("เลือกคำตอบก่อนนะ");
-    return;
-  }
-
-  if (idx < qs.length - 1) {
-    idx++;
-    render();
-    return;
-  }
-
-  if (ans.some(x => x === null)) {
-    alert("ยังตอบไม่ครบ 20 ข้อ");
-    return;
-  }
-
-  finishAssessment();
-});
-
-function finishAssessment() {
-  let correct = 0;
-  const bySkill = {
-    observation:[0,0], risk:[0,0], decision:[0,0],
-    planning:[0,0], management:[0,0]
-  };
-
-  qs.forEach((q, i) => {
-    bySkill[q.skill][1]++;
-    if (ans[i] === q.a) {
-      correct++;
-      bySkill[q.skill][0]++;
-    }
-  });
-
-  const score = Math.round((correct / qs.length) * 100);
-  const skillScores = {};
-
-  Object.keys(bySkill).forEach(k => {
-    const [right, total] = bySkill[k];
-    skillScores[k] = total ? Math.round((right / total) * 100) : 0;
-  });
-
-  updateUser(u => {
-    u.progress.assessment.done = true;
-    u.progress.assessment.score = score;
-    u.progress.assessment.attempts++;
-    u.progress.assessment.lastAt = new Date().toISOString();
-    u.progress.assessment.skills = skillScores;
-    u.progress.xp += Math.round(score * 1.5);
-    u.progress.history.unshift({
-      type:"assessment", score, at:new Date().toISOString()
-    });
-  });
-
-  resultBox.style.display = "block";
-  resultBox.innerHTML = `
-    <span class="badge badge-gold">RESULT</span>
-    <h2>คะแนน ${score}%</h2>
-    <p>ตอบถูก ${correct} จาก ${qs.length} ข้อ</p>
-    <div class="grid grid-3">
-      ${Object.keys(skillScores).map(k => `
-        <div class="stat">
-          <strong>${skillScores[k]}%</strong>
-          <span>${skillsTH[k]}</span>
-        </div>
-      `).join("")}
-    </div>
-    <div style="margin-top:14px">
-      <button class="btn btn-outline" id="retryAssessment" type="button">ทำแบบประเมินใหม่</button>
-      <a class="btn btn-green" href="games.html">ไปฝึกผ่านเกม →</a>
-    </div>`;
-
-  document.getElementById("retryAssessment").addEventListener("click", () => {
-    idx = 0;
-    ans = Array(qs.length).fill(null);
-    render();
-    window.scrollTo({top:0,behavior:"smooth"});
-  });
-
-  resultBox.scrollIntoView({behavior:"smooth"});
-}
-
-renderDots();
-render();
+const QUESTION_BANK = [
+{skill:"observation",type:"knowledge",level:1,time:0,q:"ก่อนเริ่มกิจกรรมในห้องที่ไม่คุ้นเคย ข้อมูลใดควรสังเกตไว้ก่อน?",opts:["ทางออกและจุดที่ครู/ผู้รับผิดชอบอยู่","ตำแหน่งที่นั่งของเพื่อนสนิท","จำนวนหน้าต่างทั้งหมด","สีของป้ายในห้อง"],a:0},
+{skill:"risk",type:"scenario",level:1,time:0,q:"พบพื้นเปียกตรงมุมทางเดินที่คนมองเห็นได้ยาก ข้อใดอธิบายความเสี่ยงได้ครบที่สุด?",opts:["มีโอกาสลื่นและคนถัดไปอาจไม่ทันสังเกต จึงควรหลีกเลี่ยงและแจ้งผู้รับผิดชอบ","ยังไม่มีใครล้มจึงยังไม่ถือว่าเสี่ยง","เสี่ยงเฉพาะคนที่วิ่งเท่านั้น","ควรรอให้มีคนอื่นเห็นก่อน"],a:0},
+{skill:"decision",type:"scenario",level:1,time:0,q:"ครูแจ้งให้ออกจากห้องตามเส้นทางที่กำหนด แต่โทรศัพท์ของคุณอยู่ที่โต๊ะด้านหลัง คุณควรทำอย่างไร?",opts:["ออกตามคำแนะนำโดยไม่ย้อนกลับไปเก็บของ","รีบกลับไปหยิบเพราะใช้เวลาไม่นาน","ให้เพื่อนย้อนกลับไปหยิบแทน","รอจนคนอื่นออกหมดแล้วค่อยตัดสินใจ"],a:0},
+{skill:"planning",type:"knowledge",level:1,time:0,q:"เหตุใดแผนอพยพจึงควรมีเส้นทางสำรอง?",opts:["เส้นทางหลักอาจใช้ไม่ได้เมื่อสถานการณ์เปลี่ยน","เพื่อให้แต่ละคนเลือกทางเองได้","เพื่อให้ไปถึงจุดรวมพลเร็วที่สุดเสมอ","เพื่อไม่ต้องฟังคำแนะนำของครู"],a:0},
+{skill:"management",type:"scenario",level:1,time:0,q:"เพื่อนรู้สึกไม่สบายระหว่างเรียนและต้องการความช่วยเหลือ การตอบสนองใดเหมาะสมที่สุด?",opts:["แจ้งครูหรือผู้ใหญ่ใกล้ที่สุดและบอกสิ่งที่สังเกตได้","ให้เพื่อนหลายคนเข้ามาช่วยพร้อมกัน","พาเพื่อนไปที่อื่นเองทันทีโดยไม่แจ้งใคร","รอดูจนแน่ใจว่าอาการหนัก"],a:0},
+{skill:"observation",type:"scenario",level:1,time:0,q:"ระหว่างเดินผ่านบันได คุณเห็นกล่องวางชิดทางออก สิ่งใดสำคัญที่สุดที่ควรสังเกต?",opts:["กล่องอาจทำให้สะดุดหรือกีดขวางการเคลื่อนที่","กล่องเป็นของห้องใด","กล่องมีน้ำหนักมากหรือไม่","ใครเป็นคนวางกล่อง"],a:0},
+{skill:"risk",type:"scenario",level:2,time:20,q:"ก่อนเริ่มกิจกรรมกลางแจ้ง ท้องฟ้ามืดลงและมีประกาศสภาพอากาศเปลี่ยนแปลง แต่ยังไม่เริ่มฝนตก คุณควรประเมินอย่างไร?",opts:["ถือว่ามีความเสี่ยงที่สถานการณ์จะเปลี่ยนเร็ว ตรวจคำแนะนำและเตรียมย้ายตามแผน","ทำกิจกรรมต่อเพราะยังไม่มีฝน","ยกเลิกทุกอย่างเองทันทีโดยไม่แจ้งใคร","แยกจากกลุ่มเพื่อหาที่หลบเอง"],a:0},
+{skill:"decision",type:"scenario",level:2,time:20,q:"ระหว่างเคลื่อนย้ายตามคำแนะนำ เส้นทางข้างหน้ามีคนหนาแน่น แต่เจ้าหน้าที่กำลังจัดระเบียบอยู่ ทางเลือกใดเหมาะสมที่สุด?",opts:["อยู่กับกลุ่ม รักษาระยะ และทำตามการจัดเส้นทางของผู้รับผิดชอบ","แทรกผ่านคนอื่นเพราะจะออกได้เร็วกว่า","แยกไปใช้ทางที่ไม่รู้จักทันที","หยุดตรงทางออกเพื่อรอเพื่อน"],a:0},
+{skill:"observation",type:"scenario",level:2,time:20,q:"คุณได้กลิ่นผิดปกติใกล้ห้องเก็บของ แต่ยังไม่เห็นสาเหตุ สิ่งใดเป็นข้อมูลที่มีประโยชน์ที่สุดเมื่อแจ้งครู?",opts:["ตำแหน่ง เวลา และสิ่งที่สังเกตได้จริงโดยไม่เข้าไปตรวจเอง","คาดเดาว่าเกิดจากอะไรแล้วบอกเป็นข้อเท็จจริง","ชื่อของคนที่เดินผ่านบริเวณนั้น","บอกเพียงว่ารู้สึกไม่ปลอดภัยโดยไม่ระบุตำแหน่ง"],a:0},
+{skill:"planning",type:"scenario",level:2,time:20,q:"กลุ่มของคุณไปถึงจุดรวมพลแล้ว แต่เพื่อนคนหนึ่งไม่อยู่กับกลุ่ม สิ่งใดควรอยู่ในแผนรับมือ?",opts:["แจ้งผู้รับผิดชอบและอยู่ที่จุดรวมพล ไม่แยกกลับไปค้นหาเอง","ส่งเพื่อนสองคนกลับไปตามหา","ทุกคนแยกกันค้นหาเพื่อประหยัดเวลา","ออกจากจุดรวมพลไปโทรหาเพื่อน"],a:0},
+{skill:"management",type:"scenario",level:2,time:20,q:"มีข่าวในกลุ่มแชตว่าอาคารหนึ่งไม่ปลอดภัย แต่ยังไม่มีประกาศจากโรงเรียน คุณควรจัดการข้อมูลอย่างไร?",opts:["ไม่ส่งต่อเป็นข้อเท็จจริง ตรวจประกาศที่เชื่อถือได้และแจ้งผู้ใหญ่หากกังวล","ส่งต่อทันทีเพื่อให้ทุกคนระวัง","เติมรายละเอียดที่คิดว่าน่าจะจริงเพื่อให้เข้าใจง่าย","เดินไปดูอาคารนั้นเพื่อยืนยันเอง"],a:0},
+{skill:"risk",type:"scenario",level:2,time:20,q:"สายไฟบริเวณอุปกรณ์หนึ่งดูชำรุด แม้อุปกรณ์ยังทำงานตามปกติ ข้อใดสะท้อนการประเมินความเสี่ยงที่ดีที่สุด?",opts:["ความเสียหายเป็นสัญญาณเตือน ควรหลีกเลี่ยงการใช้งานและแจ้งผู้รับผิดชอบ","ถ้ายังทำงานได้แสดงว่าปลอดภัย","ลองเปิดปิดหลายครั้งเพื่อทดสอบ","ให้เพื่อนทดลองก่อนแล้วค่อยตัดสินใจ"],a:0},
+{skill:"decision",type:"scenario",level:2,time:20,q:"คุณได้ยินสัญญาณเตือน แต่เพื่อนบอกว่าอาจเป็นเพียงการทดสอบ ขณะเดียวกันครูเริ่มให้ทุกคนเตรียมเคลื่อนย้าย คุณควรทำอะไร?",opts:["ปฏิบัติตามคำแนะนำของครูและรอข้อมูลยืนยันจากผู้รับผิดชอบ","เชื่อเพื่อนและอยู่ที่เดิม","ออกไปตรวจต้นเสียงก่อน","โพสต์ถามคนอื่นแล้วรอคำตอบ"],a:0},
+{skill:"planning",type:"scenario",level:2,time:20,q:"เมื่อวางแผนเส้นทางไปจุดปลอดภัย ข้อใดควรมีน้ำหนักมากกว่าความสั้นของเส้นทาง?",opts:["สถานะเส้นทาง คำแนะนำของผู้รับผิดชอบ และการหลีกเลี่ยงจุดเสี่ยง","จำนวนเพื่อนที่เลือกเส้นทางนั้น","ความคุ้นเคยเพียงอย่างเดียว","การไปถึงก่อนกลุ่มอื่น"],a:0},
+{skill:"management",type:"scenario",level:3,time:15,q:"ระหว่างเหตุฉุกเฉิน เพื่อนสองคนให้ข้อมูลไม่ตรงกัน และมีคำแนะนำจากครูอยู่แล้ว คุณมีเวลาตัดสินใจจำกัด ควรให้น้ำหนักกับอะไร?",opts:["คำแนะนำจากผู้รับผิดชอบและข้อมูลที่ยืนยันได้ในขณะนั้น","ข้อมูลของเพื่อนที่พูดเสียงดังกว่า","ข้อมูลที่น่ากังวลที่สุดแม้ยังไม่ยืนยัน","ความคิดเห็นของคนส่วนใหญ่โดยไม่ดูแหล่งที่มา"],a:0},
+{skill:"observation",type:"scenario",level:3,time:15,q:"ขณะออกจากอาคาร คุณเห็นป้ายทางออกหนึ่งทาง แต่มีสิ่งกีดขวางอยู่ข้างหน้า และครูกำลังชี้ไปอีกทาง สิ่งใดเป็นสัญญาณสำคัญที่สุดต่อการตัดสินใจตอนนี้?",opts:["สภาพเส้นทางจริงร่วมกับคำแนะนำของครู","ป้ายทางออกเพียงอย่างเดียว","ระยะทางที่สั้นที่สุด","เส้นทางที่เพื่อนสนิทเลือก"],a:0},
+{skill:"risk",type:"scenario",level:3,time:15,q:"สถานการณ์ใดควรถูกมองว่าเสี่ยงแม้ยังไม่มีผู้ได้รับอันตราย?",opts:["ทางออกถูกกีดขวางในพื้นที่ที่มีคนใช้งานจำนวนมาก","พื้นแห้งและทางเดินโล่ง","อุปกรณ์ถูกเก็บในตำแหน่งที่กำหนด","นักเรียนเดินตามเส้นทางปกติ"],a:0},
+{skill:"decision",type:"scenario",level:3,time:15,q:"เพื่อนชวนใช้ทางลัดที่ไม่อยู่ในแผนเพราะดูเงียบกว่า ขณะกลุ่มกำลังเคลื่อนไปตามเส้นทางที่ครูกำหนด คุณควรเลือกอะไร?",opts:["อยู่กับกลุ่มและใช้เส้นทางที่กำหนด เว้นแต่ผู้รับผิดชอบจะเปลี่ยนคำแนะนำ","ไปทางลัดเพราะคนน้อยกว่า","แยกกันไปคนละทางแล้วพบกันภายหลัง","หยุดกลุ่มเพื่อถกเถียงเรื่องเส้นทาง"],a:0},
+{skill:"planning",type:"scenario",level:3,time:15,q:"หากเส้นทางหลักใช้ไม่ได้กะทันหัน หลักการใดเหมาะสมที่สุดในการใช้แผนสำรอง?",opts:["ใช้เส้นทางสำรองที่กำหนดและติดตามคำแนะนำล่าสุดจากผู้รับผิดชอบ","เลือกทางใหม่ที่ดูเร็วที่สุดทันที","ย้อนกลับไปเอาของก่อนเปลี่ยนเส้นทาง","แยกกลุ่มเพื่อทดลองหลายเส้นทาง"],a:0},
+{skill:"management",type:"scenario",level:3,time:15,q:"คุณพบความผิดปกติที่อาจกระทบความปลอดภัย แต่ข้อมูลยังไม่ครบและเวลามีน้อย วิธีสื่อสารใดเหมาะสมที่สุด?",opts:["แจ้งตำแหน่งและสิ่งที่เห็นจริง พร้อมบอกว่าส่วนใดยังไม่แน่ใจ","รอจนรู้ทุกอย่างจึงค่อยแจ้ง","สรุปสาเหตุเองเพื่อให้ข้อความชัด","ส่งต่อหลายกลุ่มก่อนแจ้งครู"],a:0}
+];
+requireLogin(); fillUser();
+const skillsTH={observation:"การสังเกต",risk:"ประเมินความเสี่ยง",decision:"การตัดสินใจ",planning:"การวางแผน",management:"การจัดการสถานการณ์"};
+const qs=QUESTION_BANK; let idx=0, ans=Array(qs.length).fill(null), times=Array(qs.length).fill(null), timer=null, startedAt=0;
+const orders=qs.map(q=>q.opts.map((_,i)=>i).sort(()=>Math.random()-.5));
+const qText=document.getElementById('qText'), opts=document.getElementById('options'), qType=document.getElementById('qType'), qSkill=document.getElementById('qSkill'), resultBox=document.getElementById('assessmentResult');
+function renderDots(){const box=document.getElementById('qDots');box.innerHTML='';qs.forEach((_,i)=>{const b=document.createElement('span');b.className='q-dot';b.textContent=i+1;box.appendChild(b)})}
+function stopTimer(){if(timer){clearInterval(timer);timer=null}}
+function startTimer(q){stopTimer();const wrap=document.getElementById('assessmentTimer'), num=document.getElementById('timerNum'), bar=document.getElementById('timerBar');if(!q.time||ans[idx]!==null){wrap.style.display='none';return}wrap.style.display='block';let left=q.time;startedAt=Date.now();num.textContent=left;bar.style.width='100%';timer=setInterval(()=>{left=Math.max(0,q.time-Math.floor((Date.now()-startedAt)/1000));num.textContent=left;bar.style.width=(left/q.time*100)+'%';wrap.classList.toggle('urgent',left<=5);if(left<=0){stopTimer();times[idx]=q.time;ans[idx]=-1; if(idx<qs.length-1){idx++;render()}else finishAssessment()}},250)}
+function render(){const q=qs[idx];resultBox.style.display='none';qText.textContent=`${idx+1}. ${q.q}`;qType.textContent=q.type==='scenario'?'🎭 สถานการณ์จำลอง':'📘 ความรู้';qSkill.textContent=`${skillsTH[q.skill]} • ระดับ ${q.level}${q.time?' • '+q.time+' วินาที':''}`;opts.innerHTML='';orders[idx].forEach(orig=>{const b=document.createElement('button');b.type='button';b.className='option'+(ans[idx]===orig?' selected':'');b.textContent=q.opts[orig];b.disabled=ans[idx]===-1;b.onclick=()=>{if(ans[idx]!==null)return;ans[idx]=orig;if(q.time)times[idx]=Math.min(q.time,(Date.now()-startedAt)/1000);stopTimer();render();};opts.appendChild(b)});document.getElementById('prevBtn').disabled=idx===0||idx>=6;document.getElementById('nextBtn').textContent=idx===qs.length-1?'ส่งคำตอบและดูผล':'ข้อต่อไป →';document.getElementById('answeredCount').textContent=ans.filter(x=>x!==null).length;document.querySelectorAll('.q-dot').forEach((b,i)=>b.className='q-dot'+(ans[i]!==null?' done':'')+(i===idx?' active':''));startTimer(q)}
+document.getElementById('prevBtn').onclick=()=>{if(idx>0&&idx<6){idx--;render()}};
+document.getElementById('nextBtn').onclick=()=>{if(ans[idx]===null){alert(qs[idx].time?'เลือกคำตอบก่อนหมดเวลา':'เลือกคำตอบก่อนนะ');return}if(idx<qs.length-1){idx++;render();return}finishAssessment()};
+function finishAssessment(){stopTimer();let correct=0;const bySkill={observation:[0,0],risk:[0,0],decision:[0,0],planning:[0,0],management:[0,0]};qs.forEach((q,i)=>{bySkill[q.skill][1]++;if(ans[i]===q.a){correct++;bySkill[q.skill][0]++}});const score=Math.round(correct/qs.length*100),skillScores={};Object.keys(bySkill).forEach(k=>skillScores[k]=Math.round(bySkill[k][0]/bySkill[k][1]*100));const used=times.filter(x=>x!==null),avg=used.length?(used.reduce((a,b)=>a+b,0)/used.length):0;updateUser(u=>{if(u.progress.assessment.firstScore==null)u.progress.assessment.firstScore=score;u.progress.assessment.done=true;u.progress.assessment.score=score;u.progress.assessment.attempts++;u.progress.assessment.lastAt=new Date().toISOString();u.progress.assessment.skills=skillScores;u.progress.assessment.avgDecisionTime=Number(avg.toFixed(1));u.progress.xp+=Math.round(score*1.5);u.progress.history.unshift({type:'assessment',score,avgDecisionTime:Number(avg.toFixed(1)),at:new Date().toISOString()})});const weakest=Object.entries(skillScores).sort((a,b)=>a[1]-b[1])[0];resultBox.style.display='block';resultBox.innerHTML=`<span class="badge badge-gold">ASSESSMENT 2.0</span><h2>คะแนน ${score}%</h2><p>ตอบถูก ${correct} จาก ${qs.length} ข้อ • เวลาตัดสินใจเฉลี่ยของข้อจับเวลา ${avg.toFixed(1)} วินาที</p><div class="grid grid-3">${Object.keys(skillScores).map(k=>`<div class="stat"><strong>${skillScores[k]}%</strong><span>${skillsTH[k]}</span></div>`).join('')}</div><div class="safety-feedback"><strong>ทักษะที่ควรฝึกต่อ: ${skillsTH[weakest[0]]}</strong><p>คะแนนส่วนนี้ ${weakest[1]}% ลองฝึกผ่านเกมและกลับมาประเมินอีกครั้ง</p></div><div style="margin-top:14px"><button class="btn btn-outline" id="retryAssessment">ทำแบบประเมินใหม่</button> <a class="btn btn-green" href="games.html">ไปฝึกผ่านเกม →</a></div>`;document.getElementById('retryAssessment').onclick=()=>location.reload();resultBox.scrollIntoView({behavior:'smooth'})}
+renderDots();render();

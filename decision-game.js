@@ -96,10 +96,8 @@ function render(){
   $("decisionFeedback").textContent="";
   $("decisionNext").disabled=true;
   caption(s.intro);
-  item.choices.forEach((text,i)=>{
-    const b=document.createElement("button"); b.type="button"; b.className="choice-btn"; b.textContent=text;
-    b.addEventListener("click",()=>pick(i)); $("decisionChoices").appendChild(b);
-  });
+  const order=item.choices.map((_,i)=>i).sort(()=>Math.random()-.5);
+  order.forEach(i=>{const text=item.choices[i];const b=document.createElement("button"); b.type="button"; b.className="choice-btn"; b.textContent=text;b.addEventListener("click",()=>pick(i)); $("decisionChoices").appendChild(b);});
 }
 function pick(i){
   if(locked)return; locked=true;

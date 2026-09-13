@@ -1,23 +1,15 @@
-
 requireLogin();fillUser();
-const coords={start:[550,416],a:[470,370],b:[380,430],c:[500,290],goal:[310,500]};
-const allowed={start:["a","b"],a:["b","goal"],b:["a","goal"],goal:[]};
-let current="start",path=["start"],finished=false;
-const line=document.getElementById("routeLine"),fb=document.getElementById("routeFeedback"),player=document.getElementById("mapPlayer");
-function draw(){
-  line.setAttribute("points",path.map(n=>coords[n].join(",")).join(" "));
-  const [x,y]=coords[current];player.style.left=(x/10)+"%";player.style.top=(y/6.6)+"%";
-  document.querySelectorAll(".map-node").forEach(b=>b.classList.toggle("visited",path.includes(b.dataset.node)));
-}
-document.querySelectorAll(".map-node").forEach(b=>b.addEventListener("click",()=>{
-  const n=b.dataset.node;if(n==="start"||finished)return;
-  if(n==="c"){fb.className="feedback show bad";fb.textContent="จุด C ถูกปิดตามโจทย์ ลองเลือกเส้นทางอื่น";return}
-  if(!allowed[current].includes(n)){fb.className="feedback show bad";fb.textContent="จุดนี้ยังเชื่อมจากตำแหน่งปัจจุบันไม่ได้ เลือกจุดที่ต่อจากเส้นทาง";return}
-  current=n;path.push(n);draw();
-  if(n==="goal"){
-    finished=true;fb.className="feedback show good";fb.textContent="ถึงจุดปลอดภัยแล้ว • เส้นทางนี้ผ่านเงื่อนไขของภารกิจ";
-    updateUser(u=>{const g=u.progress.games.route;g.plays++;g.best=Math.max(g.best,100);u.progress.trainings++;u.progress.xp+=50;u.progress.passedScenarios++;u.progress.history.unshift({type:"safe-route",score:100,at:new Date().toISOString()})});
-  }else{fb.className="feedback show";fb.textContent="ดีมาก เลือกจุดถัดไปเพื่อไปยัง SAFE"}
-}));
-document.getElementById("routeReset").addEventListener("click",()=>{current="start";path=["start"];finished=false;fb.className="feedback show";fb.textContent="โจทย์กำหนดให้จุด C ใช้งานไม่ได้ • เลือก A หรือ B";draw()});
-draw();
+const locations=[
+ {name:"โรงเรียนสระแก้ว",img:"assets/sakaeo-map.jpg",icon:"🏫"},{name:"ศูนย์การค้า",img:"assets/map-mall.svg",icon:"🏬"},{name:"สวนสาธารณะ",img:"assets/map-park.svg",icon:"🌳"},{name:"สถานีขนส่ง",img:"assets/map-station.svg",icon:"🚌"},{name:"อาคารสาธารณะ",img:"assets/map-civic.svg",icon:"🏢"}
+];
+const coords={s:[120,520],a:[300,470],b:[300,300],c:[520,440],d:[520,230],e:[740,360],g:[860,160]};
+const edges={s:["a","b"],a:["s","b","c"],b:["s","a","d"],c:["a","d","e"],d:["b","c","e","g"],e:["c","d","g"],g:[]};
+const blocks=["c","b","e","a","d","c","b","e","a","d","c","b","e","a","d"];
+const levels=Array.from({length:15},(_,i)=>({id:i+1,loc:Math.floor(i/3),blocked:blocks[i],targetMoves:i%3===0?4:i%3===1?5:4,difficulty:i%3+1,title:`ด่าน ${i+1}: ${locations[Math.floor(i/3)].name}`,prompt:i%3===0?"หาเส้นทางไป SAFE โดยหลีกเลี่ยงจุดที่ปิด":i%3===1?"เลือกเส้นทางที่ใช้งานได้และพยายามใช้จำนวนจุดให้น้อย":"ด่านท้าทาย: อ่านแผนที่และปรับแผนเมื่อจุดหนึ่งใช้งานไม่ได้"}));
+let L=null,current='s',path=['s'],moves=0,finished=false;const $=id=>document.getElementById(id);const user=()=>getFullCurrent();
+function totalStars(){return Object.values(user().progress.routeStars||{}).reduce((s,x)=>s+Number(x||0),0)}
+function renderLevels(){const stars=user().progress.routeStars||{};$('starTotal').textContent=`${totalStars()} / 45 ★`;$('routeLevelGrid').innerHTML=levels.map(l=>{const loc=locations[l.loc],st=Number(stars[l.id]||0),unlocked=l.id===1||Number(stars[l.id-1]||0)>0;return `<button class="route-level-card ${unlocked?'':'locked'} ${st>0?'completed':''}" data-level="${l.id}" ${unlocked?'':'disabled'}><img src="${loc.img}" alt="${loc.name}"><div><span class="badge">${loc.icon} ${loc.name}</span><h3>${l.title}</h3><p>${'★'.repeat(st)}${'☆'.repeat(3-st)} • ระดับ ${l.difficulty}</p>${unlocked?'':`<span class="lock-note">🔒 ผ่านด่าน ${l.id-1} ก่อน</span>`}</div></button>`}).join('');document.querySelectorAll('[data-level]:not([disabled])').forEach(b=>b.onclick=()=>startLevel(Number(b.dataset.level)))}
+function startLevel(id){const stars=user().progress.routeStars||{};if(id>1&&!Number(stars[id-1]||0))return;L=levels[id-1];current='s';path=['s'];moves=0;finished=false;$('levelSelect').style.display='none';$('routePlay').style.display='block';$('routeMapImage').src=locations[L.loc].img;$('routeBadge').textContent=`MISSION ${L.id}/15 • LEVEL ${L.difficulty}`;$('routeTitle').textContent=L.title;$('routePrompt').textContent=L.prompt;$('routeFeedback').className='feedback show';$('routeFeedback').textContent=`จุด ${L.blocked.toUpperCase()} ใช้งานไม่ได้ตามโจทย์ • เลือกเส้นทางอื่น`;$('routeNodes').innerHTML=Object.entries(coords).map(([n,[x,y]])=>`<button class="map-node ${n==='s'?'start':''} ${n==='g'?'goal':''} ${n===L.blocked?'danger-node':''}" style="left:${x/10}%;top:${y/6.6}%" data-node="${n}">${n==='s'?'START':n==='g'?'SAFE':n.toUpperCase()}</button>`).join('');document.querySelectorAll('.map-node').forEach(b=>b.onclick=()=>pick(b.dataset.node));draw()}
+function draw(){$('routeLine').setAttribute('points',path.map(n=>coords[n].join(',')).join(' '));const [x,y]=coords[current];$('mapPlayer').style.left=x/10+'%';$('mapPlayer').style.top=y/6.6+'%';$('routeMoves').textContent=moves;document.querySelectorAll('.map-node').forEach(b=>b.classList.toggle('visited',path.includes(b.dataset.node)));$('routeStars').textContent=moves<=L.targetMoves?'★★★':moves<=L.targetMoves+1?'★★☆':'★☆☆'}
+function pick(n){if(finished||n==='s')return;if(n===L.blocked){$('routeFeedback').className='feedback show bad';$('routeFeedback').textContent=`จุด ${n.toUpperCase()} ปิดอยู่ตามสถานการณ์ ต้องปรับแผน`;return}if(!edges[current].includes(n)){$('routeFeedback').className='feedback show bad';$('routeFeedback').textContent='จุดนี้ยังไม่เชื่อมจากตำแหน่งปัจจุบัน';return}current=n;path.push(n);moves++;draw();if(n==='g'){finished=true;const stars=moves<=L.targetMoves?3:moves<=L.targetMoves+1?2:1;const score=Math.round(stars/3*100);$('routeFeedback').className='feedback show good';$('routeFeedback').innerHTML=`ถึง SAFE แล้ว • ได้ <strong>${'★'.repeat(stars)}${'☆'.repeat(3-stars)}</strong> • ${moves} moves`;updateUser(u=>{const g=u.progress.games.route;g.plays++;g.best=Math.max(g.best,score);u.progress.routeStars[L.id]=Math.max(u.progress.routeStars[L.id]||0,stars);u.progress.trainings++;u.progress.xp+=stars*20;if(stars>=2)u.progress.passedScenarios++;u.progress.history.unshift({type:'route',score,level:L.id,at:new Date().toISOString()})})}else{$('routeFeedback').className='feedback show';$('routeFeedback').textContent='เลือกจุดถัดไป โดยดูทั้งการเชื่อมต่อและจุดที่ปิด'}}
+$('routeReset').onclick=()=>startLevel(L.id);$('backLevels').onclick=()=>{$('routePlay').style.display='none';$('levelSelect').style.display='block';renderLevels()};renderLevels();

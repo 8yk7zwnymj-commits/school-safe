@@ -50,3 +50,10 @@
 - Emergency Challenge remains 6 rounds / 30 seconds.
 - Added a visible Safety News page and top navigation link, with verified-source links.
 - Added Safety News teaser on dashboard.
+
+
+## v10 Safety Plus
+- Assessment 2.0: 20 harder questions, 3 levels, timed questions, shuffled choices, decision-time metric.
+- Safety Map verification notice.
+- New safety equipment learning page.
+- Rotating Safety Alert reminders on dashboard.
